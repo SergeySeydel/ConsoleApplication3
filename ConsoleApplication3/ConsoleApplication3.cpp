@@ -73,7 +73,7 @@ void consolewriting(std::vector<std::string>& consoledata) {
 
 }
 
-void write_file(std::string& name_file, std::vector<std::vector<std::string>>& data_file) {
+void filewritten(std::string& name_file, std::vector<std::vector<std::string>>& data_file) {
 
 	vector<string> strBuff;
 	
@@ -122,10 +122,10 @@ void Handling(vector<string>& data_console, vector<vector<string>>& data_file) {
 
 			auto it = Local_variable.find("FROM");
 
-			auto elem = (*(++(std::find(data_console.begin(), data_console.end(), Local_variable))));
+			auto part = (*(++(std::find(data_console.begin(), data_console.end(), Local_variable))));
 
 			
-			write_file(elem, data_file);
+			filewritten(part, data_file);
 
 			for (auto Local_variableN : data_console) {
 
