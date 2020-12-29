@@ -104,7 +104,7 @@ void write_file(std::string& name_file ,std::vector<std::vector<std::string>>& d
 
 			while (!s_1.eof())
 			{
-				getline(s_1, str, ',');
+				getline(s_1, str, ';');
 				strBuff.push_back(str);
 			}
 
@@ -126,30 +126,36 @@ void write_file(std::string& name_file ,std::vector<std::vector<std::string>>& d
 void Processing(vector<string>& data_console, vector<vector<string>>& data_file) {
 
 
-	for(auto DC: data_console) {
-	
-		if(DC.find('*') != std::string::npos) {
-		
-			for (int i = 0; i < data_file.size(); i++)
-			{
-				for (int j = 0; j < data_file[i].size(); j++)
-					cout << data_file[i][j] << " ";
+	for (auto DC : data_console) {
 
-				cout << endl;
-			}
-		
-		}
-		else if (DC.find("FROM") != std::string::npos) {
-		
+		if (DC.find("FROM") != std::string::npos) {
+
 			auto it = DC.find("FROM");
 
 			auto elem = (*(++(std::find(data_console.begin(), data_console.end(), DC))));
 
 			//elem;
 			write_file(elem, data_file);
-		}
-	}
 
+			for (auto DC : data_console) {
+
+				if(DC.find('*') != std::string::npos) {
+		
+					for (int i = 0; i < data_file.size(); i++)
+					{
+						for (int j = 0; j < data_file[i].size(); j++)
+						cout << data_file[i][j] << " ";
+
+					cout << endl;
+					}
+			
+				}
+
+			}
+		}
+		
+	}
+	
 }
 
 int main()
