@@ -7,10 +7,10 @@
 using namespace std;
 
 template <class Container>
-void Divider(const std::string& str, Container& cont)
+void Divider(const std::string& anotherline, Container& cont)
 {
 
-	std::istringstream iss(str);
+	std::istringstream iss(anotherline);
 
 	std::copy(std::istream_iterator<std::string>(iss), std::istream_iterator<std::string>(), std::back_inserter(cont));
 }
@@ -19,23 +19,23 @@ bool Point = true;
 
 void consolewriting(std::vector<std::string>& consoledata) {
 
-	std::string str;
+	std::string line;
 
 	do {
 
 		std::cout << "---->";
 
-		getline(std::cin, str);
+		getline(std::cin, line);
 
-		if (str.size() > 0) {
+		if (line.size() > 0) {
 
-			if ((str.find("\\q") != std::string::npos) | (str.find("\\quit") != std::string::npos)) {
+			if ((line.find("\\q") != std::string::npos) | (line.find("\\quit") != std::string::npos)) {
 
 				Point = false;
 				return;
 			}
 
-			Divider(str, consoledata);
+			Divider(line, consoledata);
 
 			for (auto& Local_variable : consoledata) {
 
@@ -69,41 +69,41 @@ void consolewriting(std::vector<std::string>& consoledata) {
 			
 		}
 
-	} while (str.size() > 0);
+	} while (line.size() > 0);
 
 }
 
-void filewritten(std::string& name_file, std::vector<std::vector<std::string>>& data_file) {
+void filewritten(std::string& nameoffile, std::vector<std::vector<std::string>>& data_file) {
 
 	vector<string> strBuff;
 	
-	string str;
+	string anotheranotherline;
 
-	ifstream fs(name_file);
+	ifstream f(nameoffile);
 
-	if (!fs.is_open()) {
+	if (!f.is_open()) {
 
 		std::cout << "Error! Could not find a file: *.csv";
 	}
 	else
 	{
-		if (fs.eof()) {
+		if (f.eof()) {
 
 			std::cout << "File - empty";
 			return;
 		}
 
-		while (!fs.eof())
+		while (!f.eof())
 		{
-			getline(fs, str);
+			getline(f, anotheranotherline);
 
-			std::stringstream s_1(str);
+			std::stringstream s_1(anotheranotherline);
 			vector<string> strBuff;
 
 			while (!s_1.eof())
 			{
-				getline(s_1, str, ';');
-				strBuff.push_back(str);
+				getline(s_1, anotheranotherline, ';');
+				strBuff.push_back(anotheranotherline);
 			}
 
 			data_file.push_back(strBuff);
@@ -183,19 +183,19 @@ int main()
 {
 	setlocale(LC_ALL, "Russian");
 
-	vector<string> data_console;
-	vector<vector<string>> data_file;
+	vector<string> dataofcon;
+	vector<vector<string>> dataoffs;
 
 	while (Point) {
 
 		
 
-		consolewriting(data_console);
+		consolewriting(dataofcon);
 		
 
-		if (data_console.size() > 1) {
+		if (dataofcon.size() > 1) {
 
-			Handling(data_console, data_file);
+			Handling(dataofcon, dataoffs);
 		}
 	}
 
