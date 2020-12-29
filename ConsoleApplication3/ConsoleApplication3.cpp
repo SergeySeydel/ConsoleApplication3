@@ -63,11 +63,11 @@ void write_console(std::vector<std::string>& data_con) {
 				}
 
 			}
-			///
+			
 		}
 		else {
 		
-			///return;
+		
 		}
 	
 	} while (str.size() > 0);
@@ -137,24 +137,58 @@ void Processing(vector<string>& data_console, vector<vector<string>>& data_file)
 			//elem;
 			write_file(elem, data_file);
 
-			for (auto DC : data_console) {
+			for (auto DCt : data_console) {
 
-				if(DC.find('*') != std::string::npos) {
-		
+				if (DCt.find('*') != std::string::npos) {
+
 					for (int i = 0; i < data_file.size(); i++)
 					{
 						for (int j = 0; j < data_file[i].size(); j++)
-						cout << data_file[i][j] << " ";
+							cout << data_file[i][j] << " ";
 
-					cout << endl;
+						cout << endl;
 					}
-			
+
+				}if (DCt.find("SELECT") != std::string::npos) {
+
+					auto it = DCt.find("SELECT");
+
+					auto elem = (*(++(std::find(data_console.begin(), data_console.end(), DC))));
+
+					//data_file[0];
+
+					int i = 0;
+
+					for (auto DCR : data_file[0]) {
+
+						++i;
+
+						if (DCR == elem) {
+							break;
+							//return;
+						}
+
+					}
+
+					// SELECT name FROM data.csv;
+
+					for (auto data : data_file) {
+
+						std::cout << data[i];
+
+					}
+
+
+
 				}
 
 			}
 		}
-		
+
 	}
+
+	
+
 	
 }
 
