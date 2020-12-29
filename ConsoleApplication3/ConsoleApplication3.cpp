@@ -7,7 +7,7 @@
 using namespace std;
 
 template <class Container>
-void Split(const std::string& str, Container& cont)
+void Divider(const std::string& str, Container& cont)
 {
 
 	std::istringstream iss(str);
@@ -15,15 +15,15 @@ void Split(const std::string& str, Container& cont)
 	std::copy(std::istream_iterator<std::string>(iss), std::istream_iterator<std::string>(), std::back_inserter(cont));
 }
 
-bool flaggin = true;
+bool Point = true;
 
-void write_console(std::vector<std::string>& data_con) {
+void consolewriting(std::vector<std::string>& consoledata) {
 
 	std::string str;
 
 	do {
 
-		std::cout <<  ">" << "\x1b[0m";
+		std::cout << "---->";
 
 		getline(std::cin, str);
 
@@ -31,31 +31,31 @@ void write_console(std::vector<std::string>& data_con) {
 
 			if ((str.find("\\q") != std::string::npos) | (str.find("\\quit") != std::string::npos)) {
 
-				flaggin = false;
+				Point = false;
 				return;
 			}
 
-			Split(str, data_con);
+			Divider(str, consoledata);
 
-			for (auto& DC : data_con) {
+			for (auto& Local_variable : consoledata) {
 
-				if (DC.find(';') != std::string::npos) {
+				if (Local_variable.find(';') != std::string::npos) {
 
-					auto it = std::find(data_con.begin(), data_con.end(), DC);
+					auto it = std::find(consoledata.begin(), consoledata.end(), Local_variable);
 
-					*it = DC.erase(DC.find(';'), 1);
+					*it = Local_variable.erase(Local_variable.find(';'), 1);
 				}
-				else if (DC.find('=') != std::string::npos) {
+				else if (Local_variable.find('=') != std::string::npos) {
 
-					auto it = std::find(data_con.begin(), data_con.end(), DC);
+					auto it = std::find(consoledata.begin(), consoledata.end(), Local_variable);
 
-					data_con.erase(it);
+					consoledata.erase(it);
 
-					if (DC.find(';') != std::string::npos) {
+					if (Local_variable.find(';') != std::string::npos) {
 
-						auto it = std::find(data_con.begin(), data_con.end(), DC);
+						auto it = std::find(consoledata.begin(), consoledata.end(), Local_variable);
 
-						*it = DC.erase(DC.find(';'), 1);
+						*it = Local_variable.erase(Local_variable.find(';'), 1);
 
 					}
 
@@ -83,14 +83,13 @@ void write_file(std::string& name_file, std::vector<std::vector<std::string>>& d
 
 	if (!fs.is_open()) {
 
-		std::cout << "Error! Not file: *.csv";
+		std::cout << "Error! Could not find a file: *.csv";
 	}
 	else
 	{
-
 		if (fs.eof()) {
 
-			std::cout << "File is empty!!!";
+			std::cout << "File - empty";
 			return;
 		}
 
@@ -110,49 +109,51 @@ void write_file(std::string& name_file, std::vector<std::vector<std::string>>& d
 			data_file.push_back(strBuff);
 		}
 
+	
 	}
 }
 
-void Processing(vector<string>& data_console, vector<vector<string>>& data_file) {
+void Handling(vector<string>& data_console, vector<vector<string>>& data_file) {
 
 
-	for (auto DC : data_console) {
+	for (auto Local_variable : data_console) {
 
-		if (DC.find("FROM") != std::string::npos) {
+		if (Local_variable.find("FROM") != std::string::npos) {
 
-			auto it = DC.find("FROM");
+			auto it = Local_variable.find("FROM");
 
-			auto elem = (*(++(std::find(data_console.begin(), data_console.end(), DC))));
+			auto elem = (*(++(std::find(data_console.begin(), data_console.end(), Local_variable))));
 
 			
 			write_file(elem, data_file);
 
-			for (auto DCt : data_console) {
+			for (auto Local_variableN : data_console) {
 
-				if (DCt.find('*') != std::string::npos) {
+				if (Local_variableN.find('*') != std::string::npos) {
 
 					for (int i = 0; i < data_file.size(); i++)
 					{
 						for (int j = 0; j < data_file[i].size(); j++)
-							cout << data_file[i][j] << " ";
+							std::cout << data_file[i][j] << " ";
 
-						cout << endl;
+							std::cout << endl;
 					}
 
-				}if (DCt.find("SELECT") != std::string::npos) {
+				}if (Local_variableN.find("SELECT") != std::string::npos) {
 
-					auto it = DCt.find("SELECT");
+					auto it = Local_variableN.find("SELECT");
 
-					auto elem = (*(++(std::find(data_console.begin(), data_console.end(), DCt))));
+					auto part = (*(++(std::find(data_console.begin(), data_console.end(), Local_variableN))));
 
 					
+
 					int i = 0;
 
-					for (auto DCR : data_file[0]) {
+					for (auto Local_variableR : data_file[0]) {
 
 						++i;
 
-						if (DCR == elem) {
+						if (Local_variableR == part) {
 							break;
 							
 						}
@@ -175,7 +176,6 @@ void Processing(vector<string>& data_console, vector<vector<string>>& data_file)
 	}
 
 
-
 	
 }
 
@@ -186,17 +186,17 @@ int main()
 	vector<string> data_console;
 	vector<vector<string>> data_file;
 
-	while (flaggin) {
+	while (Point) {
 
-		write_console(data_console);
+		
+
+		consolewriting(data_console);
+		
 
 		if (data_console.size() > 1) {
 
-			Processing(data_console, data_file);
+			Handling(data_console, data_file);
 		}
 	}
 
 }
-
-
-
