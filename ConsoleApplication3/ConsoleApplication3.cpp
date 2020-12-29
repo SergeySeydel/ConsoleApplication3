@@ -1,33 +1,32 @@
 ﻿#include <iostream>
-#include <fstream> // ifstream
+#include <fstream>
 #include <string>
 #include <vector>
 #include <sstream>
 
 using namespace std;
 
-
 template <class Container>
-void Split(const std::string& str, Container &cont)
+void Split(const std::string& str, Container& cont)
 {
 
-    std::istringstream iss(str);
+	std::istringstream iss(str);
 
-    std::copy(std::istream_iterator<std::string>(iss), std::istream_iterator<std::string>(), std::back_inserter(cont));
+	std::copy(std::istream_iterator<std::string>(iss), std::istream_iterator<std::string>(), std::back_inserter(cont));
 }
 
 bool FLAG = true;
 
 void write_console(std::vector<std::string>& data_con) {
-	
+
 	std::string str;
 
 	do {
-	
-		std::cout << "\x1b[0;32;40m"<< ">>>" <<"\x1b[0m";
+
+		std::cout << "\x1b[0;32;40m" << ">>>" << "\x1b[0m";
 
 		getline(std::cin, str);
-	
+
 		if (str.size() > 0) {
 
 			if ((str.find("\\q") != std::string::npos) | (str.find("\\quit") != std::string::npos)) {
@@ -66,31 +65,31 @@ void write_console(std::vector<std::string>& data_con) {
 			
 		}
 		else {
-		
-		
+
+			
 		}
-	
+
 	} while (str.size() > 0);
 
 }
 
-void write_file(std::string& name_file ,std::vector<std::vector<std::string>>& data_file) {
+void write_file(std::string& name_file, std::vector<std::vector<std::string>>& data_file) {
 
 	vector<string> strBuff;
-	//vector <vector<string>> data;
+	
 	string str;
 
 	ifstream fs(name_file);
 
 	if (!fs.is_open()) {
-	
+
 		std::cout << "Error! Not file: *.csv";
 	}
-	else 
+	else
 	{
 
 		if (fs.eof()) {
-			
+
 			std::cout << "File is empty!!!";
 			return;
 		}
@@ -111,15 +110,6 @@ void write_file(std::string& name_file ,std::vector<std::vector<std::string>>& d
 			data_file.push_back(strBuff);
 		}
 
-		/*
-		for (int i = 0; i < data_file.size(); i++)
-		{
-			for (int j = 0; j < data_file[i].size(); j++)
-				cout << data_file[i][j] << " ";
-
-			cout << endl;
-		}
-		*/
 	}
 }
 
@@ -134,7 +124,7 @@ void Processing(vector<string>& data_console, vector<vector<string>>& data_file)
 
 			auto elem = (*(++(std::find(data_console.begin(), data_console.end(), DC))));
 
-			//elem;
+			
 			write_file(elem, data_file);
 
 			for (auto DCt : data_console) {
@@ -153,10 +143,9 @@ void Processing(vector<string>& data_console, vector<vector<string>>& data_file)
 
 					auto it = DCt.find("SELECT");
 
-					auto elem = (*(++(std::find(data_console.begin(), data_console.end(), DC))));
+					auto elem = (*(++(std::find(data_console.begin(), data_console.end(), DCt))));
 
-					//data_file[0];
-
+					
 					int i = 0;
 
 					for (auto DCR : data_file[0]) {
@@ -165,20 +154,18 @@ void Processing(vector<string>& data_console, vector<vector<string>>& data_file)
 
 						if (DCR == elem) {
 							break;
-							//return;
+							
 						}
 
 					}
 
-					// SELECT name FROM data.csv;
+					
 
-					for (auto data : data_file) {
+					for (int j = 0; j <= data_file[i - 1].size(); ++j) {
 
-						std::cout << data[i];
+						std::cout << data_file[j][i - 1] << std::endl;
 
 					}
-
-
 
 				}
 
@@ -187,7 +174,7 @@ void Processing(vector<string>& data_console, vector<vector<string>>& data_file)
 
 	}
 
-	
+
 
 	
 }
@@ -215,3 +202,6 @@ int main()
 	}
 
 }
+
+
+
