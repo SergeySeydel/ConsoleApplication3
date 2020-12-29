@@ -15,7 +15,7 @@ void Split(const std::string& str, Container& cont)
 	std::copy(std::istream_iterator<std::string>(iss), std::istream_iterator<std::string>(), std::back_inserter(cont));
 }
 
-bool FLAG = true;
+bool flaggin = true;
 
 void write_console(std::vector<std::string>& data_con) {
 
@@ -23,7 +23,7 @@ void write_console(std::vector<std::string>& data_con) {
 
 	do {
 
-		std::cout << "\x1b[0;32;40m" << ">>>" << "\x1b[0m";
+		std::cout <<  ">" << "\x1b[0m";
 
 		getline(std::cin, str);
 
@@ -31,7 +31,7 @@ void write_console(std::vector<std::string>& data_con) {
 
 			if ((str.find("\\q") != std::string::npos) | (str.find("\\quit") != std::string::npos)) {
 
-				FLAG = false;
+				flaggin = false;
 				return;
 			}
 
@@ -186,14 +186,9 @@ int main()
 	vector<string> data_console;
 	vector<vector<string>> data_file;
 
-	while (FLAG) {
-
-		//FROM data.csv
+	while (flaggin) {
 
 		write_console(data_console);
-		// \q +
-		//SELECT * FROM data.csv WHERE id_dept=101;
-		// \q // \quit
 
 		if (data_console.size() > 1) {
 
